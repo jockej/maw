@@ -44,9 +44,9 @@ private:
   /*! splash damage */
   const unsigned splsh;
   /*! resources required to build this unit and the quantity required */
-  const std::vector<std::pair<unsigned, unsigned> > req_resc;
+  const std::vector<std::pair<size_t, unsigned> > req_resc;
   /*! a vector of units that this unit type can see even if they are 'hidden' */
-  const std::vector<unsigned> can_see;
+  const std::vector<size_t> can_see;
   /*! movement class */
   const maw_mvmt_cls mvmt_cls;
 
@@ -67,10 +67,19 @@ private:
    * without taking the penalty units usually get. */
   const bool amphibious;
 
+  /*!
+   * Default functions which are used if no specialization is given.
+   */
+  void default_reinit_movs(maw_unit_info *unit) const;  
+  float default_atk(maw_unit_info unit, maw_unit_info against,
+                maw_tile from, maw_tile to) const;
+  float default_dfns(maw_unit_info unit, maw_unit_info attacker,
+                 maw_tile from, maw_tile to) const;
+  maw_movp default_mov_cst(maw_tile to) const;
+  
 public:
   /*! this is the interface for a unit */
-  unit_type()
-  {}
+  unit_type() {}
   
   /* Getters */
   inline unsigned get_upgrd() const {return upgrd;}
@@ -83,10 +92,9 @@ public:
   inline bool is_anti_air() const {return anti_air;}
   inline bool is_amphibious() const {return amphibious;}
   
-  /* functions implemented in  */
-  
   // how many moves does the unit has left?
-  maw_movp get_rem_movs(maw_unit_info unit) const;
+  inline maw_movp get_rem_movs(maw_unit_info unit) const {
+    return {unit.movp_num, unit.movp_den};}
 
   // get attack strength for unit `unit' when it is attacking from tile `from'
   // to  tile `to' and it is attacking unit `against',
@@ -100,7 +108,11 @@ public:
   // the cost of moving to tile `to'. A return value of 0 shall mean that it is
   // not possible for this unit to make this move.
   maw_movp mov_cst(maw_tile to) const;
+
+  void reinit_movs(maw_unit_info *unit) const;
 };
+
+extern std::vector<unit_type> units;
 
 } // end namespace maw
 #endif // ifndef UNIT_TYPE_HH

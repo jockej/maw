@@ -14,11 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include <config++>
 
 namespace maw {
 
 class terrain {
 private:
+  std::string name;
   /*! base food */
   const unsigned food;
   /**! base production */
@@ -27,11 +29,17 @@ private:
   const unsigned trade;
   /*! Whether or not this is a water tile */
   bool water_tile;
+  /*! The default cost for moving to this tile */
+  const unsigned mov_cst;
+  /*! Default defense bonus */
+  const float def_bonus;
 public:
-  terrain(Setting & setting);
+  terrain(Config& config, std::string path);
   inline bool is_water_tile() const {return water_tile;}
   inline unsigned get_food() const {return food;}
   inline unsigned get_prod() const {return prod;}
-  inline unsigned get_trade() const {return trade;}  
+  inline unsigned get_trade() const {return trade;}
+  inline unsigned get_mov_cst() const {return mov_cst;}
+  inline float get_defense_bonus() const {return def_bonus;}
 }; // end class terrain
 } // end namespace maw

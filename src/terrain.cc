@@ -18,8 +18,10 @@
 
 using namespace maw;
 
-terrain::terrain(Setting & setting) {
+terrain::terrain(Config& config, std::string path) {
   
-  
-  
+  config.lookupValue(path.append(".name"), name);
+  config.lookupValue(path.append(".food"), food);
+  config.lookupValue(path.append(".prod"), prod);
+  config.lookupValue(path.append(".move_cost"), mov_cst);
 }

@@ -135,6 +135,4 @@ typedef enum maw_unit_state {
 /*! Movement class, this defines some default moving rules */
 typedef enum maw_mvmt_cls {LAND, SEA, AIR, HELI} maw_mvmt_cls;
 
-#ifdef __cplusplus
 }
-#endif
